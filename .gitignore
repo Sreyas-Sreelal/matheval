@@ -1,0 +1,15 @@
+*.amx
+*.asm
+
+server.cfg
+
+plugins/
+
+*.exe
+*.dll
+*.so
+announce
+samp03svr
+samp-npc
+
+server_log.txt
