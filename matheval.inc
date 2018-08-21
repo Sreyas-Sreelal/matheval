@@ -89,7 +89,8 @@ static bool:toPostfix(Infix[]){
 		InputExpression[BUFFER_SIZE],
 		chr,
 		idx = -1,
-		OperatorInStack;
+		OperatorInStack,
+		bool:IsPrevOperator = true;
 
 	format(InputExpression,sizeof(InputExpression),"(%s)",Infix);
 		
@@ -104,6 +105,9 @@ static bool:toPostfix(Infix[]){
 			return false;
 		
 		if(isOperator(chr)) {
+			if(IsPrevOperator)
+				return false;
+			IsPrevOperator = true;
 			ME_insert(' ');
 			while(TOP != -1 && GetPriority(MEStack[TOP]) >= GetPriority(chr)) {
 				OperatorInStack = ME_pop();
@@ -117,17 +121,21 @@ static bool:toPostfix(Infix[]){
 				return false;
 
 		}else if(chr == '('){
+			IsPrevOperator = false;
 			if(ME_push(chr) == cellmin) 
 				return false;
 		}else if(chr == ')') {
+			IsPrevOperator = false;
 			while((OperatorInStack = ME_pop()) != '(') {
 				if(OperatorInStack != cellmin)
 					ME_insert(OperatorInStack);
 				else 
 					return false;
 			}
-		}else
+		}else{
+			IsPrevOperator = false;
 			ME_insert(chr);
+		}
 	}
 
 	if(TOP != -1)
