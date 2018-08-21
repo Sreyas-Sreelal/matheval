@@ -4,7 +4,7 @@
     {
       "label": "build-normal",
       "type": "shell",
-      "command": "${workspaceRoot}/pawno/pawncc.exe",
+      "command": "pawncc.exe",
       "args": ["${file}", "-Dgamemodes", "-;+", "-(+", "-d3"],
       "group": {
         "kind": "build",
