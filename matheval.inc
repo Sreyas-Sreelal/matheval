@@ -14,6 +14,16 @@
     #define BUFFER_SIZE (128)
 #endif
 
+#define isOperator(%0) (%0=='+'||%0=='-'||%0=='*'||%0=='/'||%0=='^')
+#define isNum(%0) (%0>='0'&&%0<='9')
+#define isValidMEChar(%0) (isOperator(%0)||%0=='.'||%0=='('||%0==')'||%0==' '||isNum(%0))
+
+enum ME_OPERATOR_PRIORITY{
+	PLUS_AND_MINUS,
+	PRODUCT_AND_DIVISION,
+	EXPONENTIAL,
+};
+
 static stock 
 	MEStack[BUFFER_SIZE],
 	InfixExpression[BUFFER_SIZE],
@@ -24,17 +34,14 @@ static stock
 	OQFRONT = -1,
 	OQREAR  = -1;
 
-#define isOperator(%0) (%0=='+'||%0=='-'||%0=='*'||%0=='/'||%0=='^')
-#define isNum(%0) (%0>='0'&&%0<='9')
-#define isValidMEChar(%0) (isOperator(%0)||%0=='.'||%0=='('||%0==')'||%0==' '||isNum(%0))
-
 static ME_push(opr){
 
 	if(TOP == BUFFER_SIZE-1){ 
-		printf("[Error] MEStack overflow! Can't push %c to MEStack",opr);
+		#if defined ME_DEBUG_MODE
+			printf("[Error] MEStack overflow! Can't push %c to MEStack",opr);
+		#endif
 		return cellmin;
 	}
-	
 	MEStack[++TOP] = opr;
 	return 1;
 }
@@ -50,7 +57,9 @@ static ME_insert(chr){
 
 static ME_pop(){
 	if(TOP<0){
-		printf("[Error] MEStack underflow!");
+		#if defined ME_DEBUG_MODE
+			printf("[Error] MEStack underflow!");
+		#endif
 		return cellmin;
 	}
 	return MEStack[TOP--];
@@ -61,12 +70,6 @@ static ME_delete(){
 		return cellmin;
 	return MEQueue[OQFRONT++];
 }
-
-enum ME_OPERATOR_PRIORITY{
-	PLUS_AND_MINUS,
-	PRODUCT_AND_DIVISION,
-	EXPONENTIAL,
-};
 
 static ME_OPERATOR_PRIORITY:GetPriority(opr){
 	new ME_OPERATOR_PRIORITY:priority;
@@ -85,6 +88,7 @@ static bool:toPostfix(Infix[]){
 		chr,
 		idx=-1,
 		OperatorInStack;
+
 	format(InputExpression,sizeof(InputExpression),"(%s)",Infix);
 		
 	while((chr = InputExpression[++idx]) != '\0'){
@@ -118,7 +122,7 @@ static bool:toPostfix(Infix[]){
 				else 
 					return false;
 			}
-		} else
+		}else
 			ME_insert(chr);
 	}
 	TOP = -1;
