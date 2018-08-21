@@ -3,7 +3,7 @@
 
 server.cfg
 
-build/
+dependencies/
 
 *.exe
 *.dll

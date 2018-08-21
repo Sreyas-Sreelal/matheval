@@ -1,21 +1,59 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "build-normal",
-      "type": "shell",
-      "command": "pawncc.exe",
-      "args": ["${file}", "-Dbuild/gamemodes", "-;+", "-(+", "-d3"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "isBackground": false,
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated"
-      },
-      "problemMatcher": "$pawncc"
-    }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build only",
+            "type": "shell",
+            "command": "sampctl package build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "isBackground": false,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": "$sampctl"
+        },
+        {
+            "label": "build watcher",
+            "type": "shell",
+            "command": "sampctl package build --watch",
+            "group": "build",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": "$sampctl"
+        },
+        {
+            "label": "run tests",
+            "type": "shell",
+            "command": "sampctl package run",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": "$sampctl"
+        },
+        {
+            "label": "run tests watcher",
+            "type": "shell",
+            "command": "sampctl package run --watch",
+            "group": "test",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": "$sampctl"
+        }
+    ]
 }
