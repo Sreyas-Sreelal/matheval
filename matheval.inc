@@ -130,6 +130,9 @@ static bool:toPostfix(Infix[]){
 			ME_insert(chr);
 	}
 
+	if(TOP != -1)
+		return false;
+	
 	return true;
 }
 
@@ -222,7 +225,8 @@ stock Float:MathEval(expression[]){
 	
 	if(OperandArraySize == -1 )
 		return FloatNaN;
-	new 
+
+	new
 		Float:operand1,
 		Float:operand2;
 
