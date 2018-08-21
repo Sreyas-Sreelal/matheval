@@ -189,7 +189,8 @@ stock ConvertToFloatArray(Float:evalStack[]){
 }
 
 stock Float:MathEval(expression[]){
-	
+	if(isOperator(expression[0]) || isOperator(expression[strlen(expression)-1]))
+		return FloatNaN;
 	TOP  = OQFRONT = OQREAR  = -1;
 	
 	new 
