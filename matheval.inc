@@ -178,6 +178,9 @@ stock ConvertToFloatArray(Float:evalStack[]){
 }
 
 stock Float:MathEval(expression[]){
+	
+	TOP  = OQFRONT = OQREAR  = -1;
+	
 	new 
 		Float:OperandArray[BUFFER_SIZE],
 		OperandArraySize = -1,
