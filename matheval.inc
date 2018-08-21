@@ -88,7 +88,7 @@ static bool:toPostfix(Infix[]){
 	new 
 		InputExpression[BUFFER_SIZE],
 		chr,
-		idx=-1,
+		idx = -1,
 		OperatorInStack;
 
 	format(InputExpression,sizeof(InputExpression),"(%s)",Infix);
@@ -129,8 +129,7 @@ static bool:toPostfix(Infix[]){
 		}else
 			ME_insert(chr);
 	}
-	TOP = -1;
-	strdel(MEStack,0,sizeof(MEStack)); 
+
 	return true;
 }
 
@@ -186,9 +185,15 @@ stock Float:MathEval(expression[]){
 		idx,
 		oidx = -1,
 		Float:evalStack[BUFFER_SIZE],
-		evalTop = -1;
-
-	if(!toPostfix(expression)){
+		evalTop = -1,
+		bool:success;
+	
+	success = toPostfix(expression);
+	
+	TOP = -1;
+	strdel(MEStack,0,sizeof(MEStack)); 
+	
+	if(!success){
 		#if defined ME_DEBUG_MODE
 			printf("Failed Infix to Postfix");
 		#endif
