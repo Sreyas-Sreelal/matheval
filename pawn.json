@@ -5,8 +5,5 @@
 	"output": "test.amx",
 	"dependencies": [
 		"sampctl/samp-stdlib"
-	],
-	"runtime": {
-		"mode": "y_testing"
-	}
+	]
 }
