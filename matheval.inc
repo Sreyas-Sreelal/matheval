@@ -14,6 +14,8 @@
     #define BUFFER_SIZE (128)
 #endif
 
+#define FloatNaN Float:0x7FFFFFFF
+
 #define isOperator(%0) (%0=='+'||%0=='-'||%0=='*'||%0=='/'||%0=='^')
 #define isNum(%0) (%0>='0'&&%0<='9')
 #define isValidMEChar(%0) (isOperator(%0)||%0=='.'||%0=='('||%0==')'||%0==' '||isNum(%0))
@@ -97,8 +99,10 @@ static bool:toPostfix(Infix[]){
 			strmid(temp, MEStack, 0, TOP);
 			printf("[DEBUG] Iter %d stack : %s current chr %c top is %d",idx,temp,chr,TOP);
 		#endif
+
 		if(!isValidMEChar(chr))
 			return false;
+		
 		if(isOperator(chr)) {
 			ME_insert(' ');
 			while(TOP != -1 && GetPriority(MEStack[TOP]) >= GetPriority(chr)) {
@@ -138,7 +142,7 @@ static Float:ME_CalCulate(Float:operand1,Float:operand2,opr){
 		case '/': return floatdiv(operand1, operand2);
 		case '^': return floatpower(operand1,operand2);	
 	}
-	return Float:(cellmin-1);
+	return FloatNaN;
 }
 
 stock ConvertToFloatArray(Float:evalStack[]){
@@ -163,7 +167,7 @@ stock ConvertToFloatArray(Float:evalStack[]){
 			evalStack[++idx] = floatstr(number);
 		}
 		if(isOperator(ch)){
-			evalStack[++idx] = Float:cellmin-1;
+			evalStack[++idx] = cellmin;
 		}
 	}
 	#if defined ME_DEBUG_MODE
@@ -188,7 +192,7 @@ stock Float:MathEval(expression[]){
 		#if defined ME_DEBUG_MODE
 			printf("Failed Infix to Postfix");
 		#endif
-		return Float:cellmin-1;
+		return FloatNaN;
 	}
 
 	#if defined ME_DEBUG_MODE
@@ -209,13 +213,13 @@ stock Float:MathEval(expression[]){
 	OperandArraySize = ConvertToFloatArray(OperandArray);
 	
 	if(OperandArraySize == -1 )
-		return Float:cellmin-1;
+		return FloatNaN;
 	new 
 		Float:operand1,
 		Float:operand2;
 
 	for(idx = 0,oidx=0;idx <= OperandArraySize; ++idx){
-		if(OperandArray[idx] == Float:cellmin-1){
+		if(OperandArray[idx] == cellmin){
 			operand2 = evalStack[evalTop--];
 			operand1 = evalStack[evalTop--];
 			evalStack[++evalTop] = ME_CalCulate(operand1,operand2,OpArray[oidx++]);
