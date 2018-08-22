@@ -20,6 +20,7 @@
 #define isNum(%0) (%0>='0'&&%0<='9')
 #define isValidMEChar(%0) (isOperator(%0)||%0=='.'||%0=='('||%0==')'||%0==' '||isNum(%0))
 
+//operator' priority
 enum ME_OPERATOR_PRIORITY{
 	PLUS_AND_MINUS,
 	PRODUCT_AND_DIVISION,
@@ -36,6 +37,7 @@ static stock
 	OQFRONT = -1,
 	OQREAR  = -1;
 
+//push elements to MEStack
 static ME_push(opr){
 
 	if(TOP == BUFFER_SIZE-1){ 
@@ -48,6 +50,7 @@ static ME_push(opr){
 	return 1;
 }
 
+//insert elements to MEQueue
 static ME_insert(chr){
 	if(OQREAR == -1 )
 		++OQFRONT;
@@ -57,6 +60,7 @@ static ME_insert(chr){
 	return 1;
 }
 
+//pop elements from MEStack
 static ME_pop(){
 	if(TOP<0){
 		#if defined ME_DEBUG_MODE
@@ -67,12 +71,14 @@ static ME_pop(){
 	return MEStack[TOP--];
 }
 
+//Delete elements from MEQueue
 static ME_delete(){
 	if(OQFRONT > OQREAR)
 		return cellmin;
 	return MEQueue[OQFRONT++];
 }
 
+//Returns passed operator' priority
 static ME_OPERATOR_PRIORITY:GetPriority(opr){
 	new ME_OPERATOR_PRIORITY:priority;
 	switch(opr){
@@ -84,6 +90,7 @@ static ME_OPERATOR_PRIORITY:GetPriority(opr){
 	return priority;
 }
 
+//converts the infix expression to postfix
 static bool:toPostfix(Infix[]){
 	new 
 		InputExpression[BUFFER_SIZE],
@@ -144,6 +151,7 @@ static bool:toPostfix(Infix[]){
 	return true;
 }
 
+//Operates opr operation on operand1 and operand2 
 static Float:ME_CalCulate(Float:operand1,Float:operand2,opr){
 	switch(opr){
 		case '+': return floatadd(operand1, operand2);
@@ -155,6 +163,7 @@ static Float:ME_CalCulate(Float:operand1,Float:operand2,opr){
 	return FloatNaN;
 }
 
+//converts the numbers in MEQueue to Floating point and pushed to evalstack 
 stock ConvertToFloatArray(Float:evalStack[]){
 	new 
 		idx=-1,
@@ -188,6 +197,7 @@ stock ConvertToFloatArray(Float:evalStack[]){
 	return idx;
 }
 
+//main function which accepts string literal as a parameter
 stock Float:MathEval(expression[]){
 	if(isOperator(expression[0]) || isOperator(expression[strlen(expression)-1]))
 		return FloatNaN;
