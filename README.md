@@ -2,7 +2,12 @@
 
 [![Build Status](https://travis-ci.com/Sreyas-Sreelal/matheval.svg?branch=master)](https://travis-ci.com/Sreyas-Sreelal/matheval) [![GitHub issues](https://img.shields.io/github/issues/Sreyas-Sreelal/matheval.svg)]() [![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/sreyas-sreelal/matheval.svg)]() [![GitHub pull license](https://img.shields.io/github/license/sreyas-sreelal/matheval.svg)]()
 
-This is a simple library for evaluating mathematical expressions given as string literals.
+This is a simple library for evaluating mathematical expressions given as string literals.Currently supported operators are:
+* `+` - addition
+* `-` - subraction
+* `^` - exponential
+* `/` - division
+* `*` - product
 
 ## Installation
 
