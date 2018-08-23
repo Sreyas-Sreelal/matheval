@@ -128,11 +128,9 @@ static bool:toPostfix(Infix[]){
 				return false;
 
 		}else if(chr == '('){
-			IsPrevOperator = false;
 			if(ME_push(chr) == cellmin) 
 				return false;
 		}else if(chr == ')') {
-			IsPrevOperator = false;
 			while((OperatorInStack = ME_pop()) != '(') {
 				if(OperatorInStack != cellmin)
 					ME_insert(OperatorInStack);
