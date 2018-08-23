@@ -153,11 +153,12 @@ static bool:toPostfix(Infix[]){
 
 //Operates opr operation on operand1 and operand2 
 static Float:ME_CalCulate(Float:operand1,Float:operand2,opr){
+
 	switch(opr){
 		case '+': return floatadd(operand1, operand2);
 		case '-': return floatsub(operand1, operand2);
 		case '*': return floatmul(operand1, operand2);
-		case '/': return floatdiv(operand1, operand2);
+		case '/': return (floatcmp(operand2,0.0) == 0 && opr == '/') ? (FloatNaN) : (floatdiv(operand1, operand2));
 		case '^': return floatpower(operand1,operand2);	
 	}
 	return FloatNaN;
