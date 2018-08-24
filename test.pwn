@@ -75,3 +75,10 @@ Test:BracketAfterOperandError(){
 	printf("Expression %s result : %f ",expression,result);
 	ASSERT(result != result);
 }
+
+Test:EmptyExpressionError(){
+	new expression[] = "()";
+	new Float:result = MathEval(expression);
+	printf("Expression %s result : %f ",expression,result);
+	ASSERT(result != result);
+}
