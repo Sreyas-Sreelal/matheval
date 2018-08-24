@@ -63,8 +63,15 @@ Test:AdjacentOperatorError(){
 }
 
 Test:ExpressionWithSpaces(){
-	new expression[] = "(5 * (5 * (5 * (5 * (5 - 1)))))";
+	new expression[] = "((5 * (5 * (5 * (5 * (5 - 1))))))";
 	new Float:result = MathEval(expression);
 	printf("Expression %s result : %f ",expression,result);
 	ASSERT(floatcmp(result,2500.0) == 0));
+}
+
+Test:BracketAfterOperandError(){
+	new expression[] = "(1+7)(2*8)";
+	new Float:result = MathEval(expression);
+	printf("Expression %s result : %f ",expression,result);
+	ASSERT(result != result);
 }
