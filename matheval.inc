@@ -229,6 +229,9 @@ stock Float:MathEval(expression[]){
 		strmid(temp,MEQueue,OQFRONT,OQREAR+1);
 		printf("Output queue %s \n",temp,MEStack);
 	#endif
+	
+	if(OQFRONT == -1)
+		return FloatNaN;
 
 	for(idx = OQFRONT;idx <= OQREAR;++idx)
 		if(isOperator(MEQueue[idx]))
