@@ -256,5 +256,5 @@ stock Float:MathEval(expression[]){
 		}else
 			evalStack[++evalTop] = OperandArray[idx];
 	}
-	return evalStack[evalTop];
+	return (!evalTop) ? (evalStack[evalTop]) : (FloatNaN);
 }
